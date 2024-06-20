@@ -23,12 +23,12 @@ bash srun.sh
 It will load the image from `img_path` and visualize the rendered PCA, instance segmentation, and image segmentation with K-Means clustering (with K automatically decided by [silhouette scores](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.silhouette_score.html)) as:
 ![single_img](single_output.png)
 
- With individual eigenvector visualized as:
+Eigenvectors are visualized as:
 ![eigenvector](eigenvector.png)
  #### Multiple Images Analysis
-To run the spectral clustering for multi-image analysis, simply run: `bash srun.sh`. It will compute eigenvectors for 100 image examples (the first 100 images of the COCO2017 validation split) of VV-Graph ('what' visual pathway). At the end, the script will render 15 leading eigenvectors.
+To run the spectral clustering for multi-image analysis, run: `bash srun.sh`. It will compute eigenvectors for 100 images saved under `./dataset` (the first 100 images of the COCO2017 validation split) of VV-Graph ('what' visual pathway). At the end, the script will render 15 leading eigenvectors.
  ![VV_result](VV_result.png)
-To run with QK-Graph ('where' visual pathway), please comment out the `--vv_graph` from `srun.sh`. The 15 leading eigenvectors would look like:
+For experiment with QK-Graph ('where' visual pathway), please run `bash srun.sh` by commenting out the `--vv_graph` from `srun.sh`. The 15 leading eigenvectors are visualized as:
  ![QK_result](QK_result.png)
 
 ### Citation
