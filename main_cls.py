@@ -1,6 +1,5 @@
 import argparse
 import os, json
-import cv2
 import random
 import shutil
 import time, glob, copy
@@ -253,17 +252,12 @@ def visualize_eigenvector(img, feat, num_of_row, num_of_col, vis_res, num_of_eig
             break
         subfeat = subfeat.reshape(n, h, w, 3).permute(0,3,1,2)
         feat = (subfeat - feat_min.reshape(-1,3,1,1)) / (feat_max - feat_min).reshape(1,3,1,1)
-        #feat[:,0] *= 127
-        #feat[:,1] *= 255
-        #feat[:,2] *= 255
         feat = feat.reshape(num_of_row, num_of_col, 3, vis_res, vis_res).permute(0,3, 1, 4, 2).reshape(num_of_row * vis_res, num_of_row * vis_res, 3)
-        #feat = cv2.cvtColor(feat.cpu().data.numpy().astype(np.uint8), cv2.COLOR_HSV2RGB)
         feat = (feat * 255).cpu().data.numpy().astype(np.uint8)
         Image.fromarray(feat).save(img_path + f'/eig_{3 * i}-{3 * (i + 1)}.png')
 
     img = img.reshape(num_of_row, num_of_col, 3, vis_res, vis_res).permute(0,3, 1, 4, 2).reshape(num_of_row * vis_res, num_of_row * vis_res, 3)
     Image.fromarray((img * 255).cpu().data.numpy().astype(np.uint8)).save(img_path + f'/img.png')
-    #for i in range(num_of_eig // num_of_eig_set):
 
 def main_worker(gpu, ngpus_per_node, args):
     args = copy.deepcopy(args)

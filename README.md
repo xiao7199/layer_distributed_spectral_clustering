@@ -6,8 +6,8 @@ Authors: [Xiao Zhang](https://xiao7199.github.io/), [David Yunis](https://dyunis
 ### Environment
 This code is developed with the following packages
 `pytorch=2.2.1`
- `diffusers=0.14.0`
- `transformers=4.29.2`
+`diffusers=0.14.0`
+`transformers=4.29.2`
 
 
  ### Running Code
@@ -17,7 +17,7 @@ We provide the code to extract low-dimension dense features from deep models (Di
  `cd single_image`
  `bash srun.sh`
 It will load the image from `img_path` and visualize the rendered PCA, instance segmentation, and image segmentation with K-Means clustering (with K automatically decided by [silhouette scores](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.silhouette_score.html)) as:
-![single_img](./single_image/output.png)
+![single_img](./single_img/output.png)
  #### Multiple Images Analysis
 To run the spectral clustering for multi-image analysis, simply run: `bash srun.sh`. It will run with 100 image examples (the first 100 images of the COCO2017 validation split) for VV-Graph ('what' visual pathway). At the end, the script will render 15 leading eigenvectors.
  ![VV_result](VV_result.png)
