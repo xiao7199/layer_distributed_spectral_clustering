@@ -64,11 +64,7 @@ parser.add_argument('--batch_iter', default=48, type=int,
                     help='img size')
 parser.add_argument('--output_dim', default=10, type=int,
                     help='output dimensionality of features that solve ncut loss')
-parser.add_argument('--temp1', default=1.0, type=float,
-                    help='parameter_1')
-parser.add_argument('--temp2', default=1.0, type=float,
-                    help='parameter_2')
-parser.add_argument('-b', '--batch-size', default=256, type=int,
+parser.add_argument('-b', 'data_type--batch-size', default=256, type=int,
                     metavar='N',
                     help='mini-batch size (default: 256), this is the total '
                          'batch size of all GPUs on the current node when '
@@ -128,7 +124,6 @@ parser.add_argument('--use_buffer_prob', type=float, default=None, help='chance 
 parser.add_argument('--attn_buffer_size', type=int, default=5, help='attn buffer size')
 parser.add_argument('--num_of_image_feat_table', type=int, default=200, help='attn buffer size')
 # optimizer param
-parser.add_argument("--data_type", type=str)  # adam/lamb
 parser.add_argument("--load_checkpoint", type=str)  # adam/lamb
 parser.add_argument("--learning_rate", type=float, default=1e-3)
 parser.add_argument("--solver_iters", type=int, default=5)
@@ -301,7 +296,7 @@ def main_worker(gpu, ngpus_per_node, args):
         if args.load_checkpoint is not None and len(args.load_checkpoint) > 0:
             args.resume = args.load_checkpoint
         else:
-            args.resume = '{}/last.pth.{}_{}.tar'.format(save_folder_path, args.temp1, args.temp2)
+            args.resume = '{}/last.pth.tar'.format(save_folder_path)
         if os.path.isfile(args.resume):
             print("=> loading checkpoint '{}'".format(args.resume))
             if args.gpu is None:
@@ -405,7 +400,7 @@ def train(diffusion, train_loader, model, ema_model, optimizer, epoch, args, ngp
                 'ema_state_dict': ema_model.state_dict(),
                 'optimizer' : optimizer.state_dict(),
                 'global_step_counter': args.global_step_counter,
-            }, False, filename = '{}/last.pth.{}_{}.tar'.format(args.save_folder_path, args.temp1, args.temp2))
+            }, False, filename = '{}/last.pth.tar'.format(args.save_folder_path))
     # to syncrhonize the process across GPUs
     torch.distributed.barrier()
     torch.cuda.reset_max_memory_allocated()

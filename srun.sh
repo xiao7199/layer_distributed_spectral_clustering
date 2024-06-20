@@ -35,8 +35,6 @@ python -m torch.distributed.launch \
 --num_of_intra_pixel 50 \
 --sparse_graph \
 --output_dim 100 \
---temp1 20 \
---temp2 2 \
 --epochs 2000 \
 --avg_steps 1 \
 --batch_size 40 \
@@ -44,7 +42,6 @@ python -m torch.distributed.launch \
 --seed 12345 \
 --learning_rate 1e-2 \
 --weight_decay 0 \
---data_type cifar10 \
 --use_intra_inter_split \
 --vv_graph \
 --resume
