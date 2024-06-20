@@ -97,6 +97,7 @@ def main():
     u,s,v = F.normalize(dense_feat.flatten(2,-1), dim = -1)[0].T.svd()
     reorth_dense_feat = torch.mm(u, torch.diag(s)).T
     dense_feat = reorth_dense_feat.reshape(dense_feat.shape)
+    eigenvector = u.T.reshape(dense_feat.shape)
 
     ## compute the instance segmentation
     inst_mask, inst_score = compute_instance_segmentation(dense_feat, np.arange(2,10))
@@ -126,6 +127,17 @@ def main():
     ax[3].set_axis_off()
     plt.tight_layout()
     plt.savefig('output.png')
+    plt.close()
+
+    eig_to_show_row = 3
+    eig_to_show_col = 4
+    fig, ax = plt.subplots(eig_to_show_row,eig_to_show_col)
+    ax = ax.reshape(-1)
+    for i in range(eig_to_show_col * eig_to_show_row):
+        ax[i].imshow(eigenvector[0,i].cpu().data.numpy(), cmap = 'gray')
+        ax[i].set_title(f'Eigevec:{i}')
+        ax[i].set_axis_off()
+    plt.savefig('eigevector.png')
     plt.close()
 
 if __name__ == '__main__':

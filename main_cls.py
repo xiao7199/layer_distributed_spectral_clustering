@@ -64,7 +64,7 @@ parser.add_argument('--batch_iter', default=48, type=int,
                     help='img size')
 parser.add_argument('--output_dim', default=10, type=int,
                     help='output dimensionality of features that solve ncut loss')
-parser.add_argument('-b', 'data_type--batch-size', default=256, type=int,
+parser.add_argument('-b', '--batch-size', default=256, type=int,
                     metavar='N',
                     help='mini-batch size (default: 256), this is the total '
                          'batch size of all GPUs on the current node when '
@@ -342,7 +342,7 @@ def main_worker(gpu, ngpus_per_node, args):
         train(diffusion, train_loader, model, ema_model, optimizer, epoch, args, ngpus_per_node, input_scaler)
         if args.global_step_counter >= total_iter:
             break
-        if epoch >= 190:
+        if epoch >= 200:
             break
 
     raw_feat = ema_model(torch.arange(100).to(args.gpu)).softmax(dim = 1)
@@ -394,7 +394,7 @@ def train(diffusion, train_loader, model, ema_model, optimizer, epoch, args, ngp
 
     if not args.multiprocessing_distributed or (args.multiprocessing_distributed
             and args.is_master):
-        if epoch % 10 == 0 or epoch == 190:
+        if epoch % 10 == 0 or epoch == 200:
             save_checkpoint({
                 'state_dict': model.state_dict(),
                 'ema_state_dict': ema_model.state_dict(),
